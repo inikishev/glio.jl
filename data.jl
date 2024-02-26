@@ -74,28 +74,19 @@ function preload!(dataset::Dataset)
     dataset.samples = [Sample(sample.loader(sample.sample), identity, sample.transform, sample.label) for sample in dataset.samples]
 end
 
-function split_dataset(dataset::Dataset, splits::Vector{Float64})
-    # get dataset class
+function split_dataset(dataset::Dataset, splits::Vector{Int})
     dataset_length = length(dataset)
-    
-    # make sure splits sum up to 1
-    if sum(splits) > 1
-        splits .= splits ./ sum(splits)
-    elseif sum(splits) < 1
-        push!(splits, 1 - sum(splits))
+
+    # make sure splits sum up to dataset length
+    if sum(splits) != length(dataset)
+        throw("Splits don't sum up to dataset length, which is $(length(dataset)), and your splits sum up to $(sum(splits))")
     end
 
-
-    # get number of samples
-    n = length(dataset)
-    # get indexes of splits
-    indexes = Vector{Int64}(splits .* n)
     split_datasets = []
     cur = 1
 
-    println(indexes)
     # get samples
-    for i in indexes
+    for i in splits
         # get samples from current index to next
         println(cur, ", ", i)
         samples = dataset.samples[cur:min(cur+i, dataset_length)]
@@ -106,6 +97,26 @@ function split_dataset(dataset::Dataset, splits::Vector{Float64})
     end
     return split_datasets
 end
+
+function split_dataset(dataset::Dataset, splits::Vector{AbstractFloat})
+    if sum(splits) != 1
+        throw("Splits sum up to $(sum(splits)), they should sum up to 1")
+    end
+    dataset_length = length(dataset)
+    split_dataset(dataset, (floor.(Int64, splits .* dataset_length)))
+end
+
+function split_dataset(dataset::Dataset, split::AbstractFloat)
+    splits = [split, 1 - split]
+    split_dataset(dataset, splits)
+end
+
+function split_dataset(dataset::Dataset, split::Int)
+    dataset_length = length(dataset)
+    splits = [split, dataset_length - split]
+    split_dataset(dataset, splits)
+end
+
 
 # ---------------
 
