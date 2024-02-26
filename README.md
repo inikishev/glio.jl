@@ -12,6 +12,9 @@ ds = DatasetLabeled()
 loader(path::String) = resize(to_channels(read_image(path), 3), (32, 32))
 add_folder!(ds, raw"C:\Users\nkshv\Pictures", loader = loader, label = last_folder, extensions = [".jpg", ".png", ".jpeg"])
 dl = MLUtils.DataLoader(ds, batchsize = 8, shuffle = true, collate = true)
+
+for (images, labels) in dl
+  ...
 ```
 Label functiom, `last_folder`, is like `torchvision.datasets.ImageFolder` - for `root/dog/xxx.png` it returns `dog`. DatasetLabel it automatically saves labels into `ds.labels`, and one-hot encodes them when iterating. Simply use with MLUtils DataLoader and set collate to true.
 
