@@ -3,7 +3,7 @@ WIP library for Flux to further speed up experimenting and fiddling around
 
 I am working on figuring out how to make proper modules in Julia...
 
-For now it adds a little bit of useful stuff that no one else seemes to have mode for julia/Flux:
+For now it adds a little bit of useful stuff that no one else seems to have made for julia/Flux:
 
 ### data.jl:
 `DatasetLabeled` - dataset class that makes creating datasets for classification extremely easy
