@@ -11,12 +11,18 @@ For now it adds a little bit of useful stuff that no one else seems to have made
 ds = DatasetLabeled()
 loader(path::String) = resize(to_channels(read_image(path), 3), (32, 32))
 add_folder!(ds, raw"C:\Users\nkshv\Pictures", loader = loader, label = last_folder, extensions = [".jpg", ".png", ".jpeg"])
-dl = MLUtils.DataLoader(ds, batchsize = 8, shuffle = true, collate = true)
+# or `ds = DatasetLabeled(raw"C:\Users\nkshv\Pictures", loader = loader, label = last_folder, extensions = [".jpg", ".png", ".jpeg"])`
 
+dl = MLUtils.DataLoader(ds, batchsize = 8, shuffle = true, collate = true)
 for (images, labels) in dl
   ...
 ```
 Label functiom, `last_folder`, is like `torchvision.datasets.ImageFolder` - for `root/dog/xxx.png` it returns `dog`. DatasetLabel it automatically saves labels into `ds.labels`, and one-hot encodes them when iterating. Simply use with MLUtils DataLoader and set collate to true.
+
+Easily split dataset using split:
+```julia
+ds_train, ds_test, ds_val = split_dataset(ds, [0.6, 0.2, 0.2])
+```
 
 Finally, if you have enough RAM, preload all samples using `preload!(ds)`, leads to insane speed ups.
 
