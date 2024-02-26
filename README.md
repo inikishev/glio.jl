@@ -17,7 +17,7 @@ dl = MLUtils.DataLoader(ds, batchsize = 8, shuffle = true, collate = true)
 for (images, labels) in dl
   ...
 ```
-Label functiom, `last_folder`, is like `torchvision.datasets.ImageFolder` - for `root/dog/xxx.png` it returns `dog`. DatasetLabel it automatically saves labels into `ds.labels`, and one-hot encodes them when iterating. Simply use with MLUtils DataLoader and set collate to true.
+Label function, `last_folder`, is like `torchvision.datasets.ImageFolder` - for `root/dog/xxx.png` it returns `dog`. DatasetLabel it automatically saves labels into `ds.labels`, and one-hot encodes them when iterating. Simply use with MLUtils DataLoader and set collate to true.
 
 Easily split dataset using split:
 ```julia
