@@ -1,8 +1,9 @@
 import FileIO, Flux, Images
 using Statistics
 
+
 "Returns channel-first float32 image in WHC format (width - height - channels). Black and white images will have one channel as well."
-function read_image(path::String)
+function read_image_arr(path::String)
     arr = Array{Float32}(Images.channelview(FileIO.load(path)))
     if ndims(arr) == 2
         return Flux.unsqueeze(arr, 3)
