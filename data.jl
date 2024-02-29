@@ -1,4 +1,4 @@
-import FileIO, Images, OneHotArrays, MLUtils, Statistics
+import FileIO, Images, OneHotArrays, MLUtils, Statistics, Random
 
 "Always returns True"
 always_true(a) = true
@@ -41,6 +41,10 @@ end
 
 function Base.copy(x::DatasetLabeled)
     return DatasetLabeled(copy(x.samples), copy(x.classes))
+end
+
+function shuffle!(dataset::Dataset)
+    Random.shuffle!(dataset.samples)
 end
 
 "Add sample to a dataset"
@@ -109,7 +113,11 @@ function preload!(dataset::Dataset)
 end
 
 "Split dataset into according to splits, for example 150-long dataset into [100, 50]. Returns a list of datasets."
-function split_dataset(dataset::Dataset, splits::Base.AbstractVecOrTuple{Int})
+function split_dataset(dataset::Dataset, splits::Base.AbstractVecOrTuple{Int}, shuffle::Bool = true)
+    if shuffle
+        shuffle!(dataset)
+    end
+    
     dataset_length = length(dataset)
 
     # make sure splits sum up to dataset length
