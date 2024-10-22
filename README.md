@@ -2,7 +2,6 @@
 WIP library for Flux to further speed up experimenting and fiddling around
 
 I am working on figuring out how to make proper modules in Julia... 
-Update: I am not working on it anymore but I might if I find any good uses for Enzyme. That being said you get exactly what you see. All code below works.
 
 For now it adds some useful stuff that no one else seems to have made for julia and flux, in particular for making datasets. Read below or look at a quick example https://github.com/stunlocked1/glio_julia/blob/main/example.ipynb
 
